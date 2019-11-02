@@ -15,11 +15,13 @@ class App extends React.Component {
     console.log("In Mount ✅")
     window.navigator.geolocation.getCurrentPosition(
       (position) => {
+        console.log('setting coords')
         this.setState( {
           latitude: position.coords.latitude,
           longitude: position.coords.longitude
         } )
       }, (error) => {
+        console.log('setting error')
         this.setState( { locationErr: error.message } )
       }
     );
@@ -33,12 +35,11 @@ class App extends React.Component {
         'longitude': this.state.longitude
       }
     };
-
     console.log(options)
     
     const getWeatherData = async () => {
       const response = await axios.get('http://localhost:5000/', options)
-      console.log("Logging from inside getWeatherData")
+      console.log(response)
     }
     getWeatherData()
 
@@ -54,7 +55,6 @@ class App extends React.Component {
       <>
         <h1>{latitude} {longitude}</h1>
         <img src={logo} alt="logo"/>
-        {/* {latitutde && <GetWeather />} */}
       </>
     )
   }

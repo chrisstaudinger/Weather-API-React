@@ -12,32 +12,19 @@ dotenv.config()
 app.use(express.json());
 app.use(cors());
 
-
 app.get('/', async (req, res, next) => {
   try {
 
     const apiKey = process.env.DARKSKYKEY
     const { latitude, longitude } = req.headers
-
-    // console.log(req.headers)
-    // console.log(latitude, longitude)
-    // console.log(apiKey)
-
     const DarkSkyEndpoint =`https://api.darksky.net/forecast/${apiKey}/${latitude},${longitude}` 
+    
+    const response = await axios.get(DarkSkyEndpoint)
+    console.log(response.data)
+    res.send(response.data)
 
-    const fetchData = async (endpoint) => {
-      try {
-        const response = await axios.get(endpoint)
-        console.log(response)
-      } catch (error) {
-        console.log(error)
-      }
-      
-    }
-
-    fetchData(DarkSkyEndpoint)
-    res.send("Express App Working ✅")
   } catch (error) {
+    console.log('ERRROR', error)
     res.status(500).send(error)
   }
 })
