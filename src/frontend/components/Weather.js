@@ -3,29 +3,40 @@ import axios from 'axios';
 
 class Weather extends React.Component {
 
+  state = {
+    apiData: null
+  }
+
   componentDidMount() {
+    
+    console.log("In Update ✅")
+    
+    const getWeatherData = async () => {
 
-    // const options = {
-    //   headers: {
-    //     'latitude': this.props.latitude,
-    //     'longitude': this.props.longitude
-    //   }
-    // };
-    // console.log(options)
+      const options = {
+        headers: {
+          'latitude': this.props.latitude,
+          'longitude': this.props.longitude
+        }
+      };
 
-    // const getWeatherData = async () => {
-    //   const response = await axios.get('http://localhost:5000/', options)
-    //   console.log(response)
-    //   // this.setState( { apiData: response } )
-    // }
-    // getWeatherData()
+      const response = await axios.get('http://localhost:5000/', options)
+      console.log(response)
+      this.setState( { apiData: response } )
+    }
+
+    if ( this.props.latitude && this.props.longitude) {
+      console.log('SETITNG INTERVAL')
+      setInterval( () => {
+        getWeatherData()
+      }, (3600 * 1000))
+    }
 
   }
   
 
   render() {
-    console.log(this.state)
-    console.log(this.props)
+    console.log('IN WEATHER COMPONENT', this.props, this.state.apiData)
     return(
       `Weather Component. Rendering Props. Latitude ${this.props.latitude} Longitude${this.props.latitude}`
     )
